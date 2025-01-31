@@ -1,17 +1,20 @@
-# Use an official base image
 FROM ubuntu:20.04
 
-# Set environment variables to avoid interactive prompts during installation
+# Set environment variables to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install curl and bash
-RUN apt-get update && apt-get install -y \
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
     curl \
-    bash \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    gnupg2 \
+    lsb-release \
+    && apt-get clean
 
-# Run the curl command to install Coolify
-RUN curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
 
-# Set default command (optional)
-CMD ["bash"]
+# Expose necessary ports (if needed)
+EXPOSE 3000
+
+# Command to run Coolify (adjust depending on Coolify's setup)
+CMD ["curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash"]
